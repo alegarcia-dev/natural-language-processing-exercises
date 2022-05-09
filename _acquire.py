@@ -86,6 +86,10 @@ class Acquire:
                 If True details about the steps being taken by this function 
                 will be printed to the console.
 
+            **kwargs: optional
+                Additional keyword arguments which are passed to the 
+                read_from_source function.
+
             Returns
             -------
             DataFrame: A Pandas DataFrame containing data from the source provided.
@@ -93,7 +97,7 @@ class Acquire:
 
         # If the file is cached, read from the .csv file
         if os.path.exists(self.file_name) and use_cache:
-            if verbose: print('Reading from .csv file.')
+            if verbose: print(f'Reading from .csv file: {self.file_name}')
             return pd.read_csv(self.file_name)
         
         # Otherwise read from the mysql database

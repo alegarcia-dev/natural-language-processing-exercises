@@ -17,7 +17,12 @@
 
     Class Methods:
 
-        
+        __init__(self, file_name = 'codeup_blog.csv')
+        read_from_source(self)
+        get_all_blog_articles(self)
+        get_all_article_links(self, url)
+        get_blog_articles(self, urls)
+        get_article_info(self, soup)
 
 '''
 
@@ -37,7 +42,7 @@ class AcquireCodeupBlog(Acquire):
     ################################################################################
 
     def __init__(self, file_name = 'codeup_blog.csv'):
-        self.file_name = 'codeup_blog.csv'
+        self.file_name = file_name
 
     ################################################################################
 
