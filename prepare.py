@@ -11,6 +11,7 @@
 
     Functions:
 
+        prepare_article_data(df)
         basic_clean(text)
         tokenize(text)
         stem(text)
@@ -29,6 +30,36 @@ import pandas as pd
 import nltk
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
+
+################################################################################
+
+def prepare_article_data(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+        Create a dataframe of the prepared article data. The prepared dataframe 
+        contains the title, original article, a basic cleaned version of the 
+        article, the cleaned version of the article, a stemmed version of the 
+        article, and a lemmatized version of the article.
+    
+        Parameters
+        ----------
+        parameter: parameter_type
+            parameter_description
+    
+        Returns
+        -------
+        return_type: return_description
+    '''
+
+    df = df.dropna()
+
+    return pd.DataFrame({
+        'title' : df.title,
+        'original' : df.content,
+        'basic_clean' : df.content.apply(basic_clean),
+        'clean' : df.content.apply(basic_clean).apply(tokenize).apply(remove_stopwords),
+        'stemmed' : df.content.apply(basic_clean).apply(tokenize).apply(stem).apply(remove_stopwords),
+        'lemmatized' : df.content.apply(basic_clean).apply(tokenize).apply(lemmatize).apply(remove_stopwords)
+    })
 
 ################################################################################
 
@@ -55,7 +86,7 @@ def basic_clean(text: str) -> str:
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore')
 
     # Match and replace anything that is not a letter, number, apostrophe, or whitespace.
-    regexp = r"[^a-z0-9'\s]"
+    regexp = r"[^a-z0-9' ]"
     text = re.sub(regexp, '', text)
 
     return text
