@@ -152,10 +152,10 @@ def remove_stopwords(text: str, extra_words: list[str] = None, exclude_words: li
     stopword_list = stopwords.words('english')
 
     # If any extra words were provided add them to the stopwords list.
-    stopword_list = stopword_list + extra_words if extra_words is not None else stopword_list
+    stopword_list = set(stopword_list) | set(extra_words) if extra_words is not None else set(stopword_list)
 
     # If any exclude words were provided remove them from the stopwords list.
-    [stopword_list.remove(word) for word in (exclude_words if exclude_words is not None else [])]
+    stopword_list = stopword_list - set(exclude_words) if exclude_words is not None else stopword_list
     
     # For each word in text remove the word if it is a stopword and return the joined result in a string.
     text = [word for word in text.split() if word not in stopword_list]
