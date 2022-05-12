@@ -63,6 +63,17 @@ def prepare_article_data(df: pd.DataFrame) -> pd.DataFrame:
 
 ################################################################################
 
+def prepare_messages(df: pd.DataFrame) -> pd.DataFrame:
+    return pd.DataFrame({
+        'label' : df.label,
+        'original' : df.text,
+        'clean' : df.text.apply(basic_clean).apply(tokenize).apply(remove_stopwords),
+        'stemmed' : df.text.apply(basic_clean).apply(tokenize).apply(stem).apply(remove_stopwords),
+        'lemmatized' : df.text.apply(basic_clean).apply(tokenize).apply(lemmatize).apply(remove_stopwords),
+    })
+
+################################################################################
+
 def basic_clean(text: str) -> str:
     '''
         Perform basic cleaning operations on the text provided. This function 
